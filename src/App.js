@@ -10,37 +10,57 @@ class App extends Component {
   constructor (props){
     super(props);
     this.state ={
-      data : [
-        {"id":1234,"team": "alpha","name":"mojopicon","email":"mojopicon@gmail.com"},
-          {"id":1235,"team": "alpha","name":"paca","email":"paca@gmail.com"},
-          {"id":1236,"team": "alpha","name":"penca","email":"penca@gmail.com"},
-          {"id":1237,"team": "beta","name":"dark","email":"dark@gmail.com"},
-          {"id":1238,"team": "beta","name":"zeus","email":"zeus@gmail.com"},
-          {"id":1239,"team": "alpha","name":"juju","email":"juju@gmail.com"},
-          {"id":1240,"team": "delta","name":"pedro","email":"pedro@gmail.com"},
-          {"id":1241,"team": "delta","name":"bilma","email":"bilma@gmail.com"},
-          {"id":1242,"team": "delta","name":"ilden","email":"ilden@gmail.com"},
-          {"id":1243,"team": "delta","name":"zelda","email":"zelda@gmail.com"}
-      ],
-      selectedItem : null
+      data : this.props.data,
+      alphaList: [],
+      betaList: [],
+      deltaList: [],
+      selectedItem : null,
     }
     this.updateSelectItem = this.updateSelectItem.bind(this);
   }
 
-  updateSelectItem(element){
-    this.setState({
-      selectedItem : element
-    })
+  //Function que se ejecutará cuando se haga click en un elemento de la tabla
+  updateSelectItem(element)
+  {
+    this.setState(
+      {
+        selectedItem : element
+      })
   }
 
-  render() {
+  //Despues de que se renderice el componente tanto en el cliente
+  //Funcion del livecycle
+  componentDidMount ()
+  {
+    var alist  = [];
+    var blist = [];
+    var dlist = [];
+
+    this.state.data.forEach(function(element) {
+      switch (element.team) {
+        case 'alpha': alist.push(element);break;
+        case 'beta': blist.push(element);break;
+        case 'delta': dlist.push(element);break;
+        default: break;
+      }
+    });
+
+    this.setState({
+      alphaList:alist,
+      betaList:blist,
+      deltaList:dlist
+    });
+  }
+
+  render() 
+  {
     return (
         <div className="container">
           <div className="row">
-            <Card class="col s3" title="Total" text={12+2} colorcontent="blue-grey darken-3" colortitle="blue-grey darken-4" />
-            <Card class="col s3" title="Alpha" text={12+3} colorcontent="blue-grey darken-1" colortitle="blue-grey darken-4"/>
-            <Card class="col s3" title="Beta" text={12+4}  colorcontent="blue-grey darken-1" colortitle="blue-grey darken-4" />
-            <Card class="col s3" title="Delta" text={12+5} colorcontent="blue-grey darken-1" colortitle="blue-grey darken-4" />
+            <Card class="col s3" title="Total de equipos" text={this.state.data.length} colorcontent="blue-grey darken-3" colortitle="blue-grey darken-4" />
+            <Card class="col s3" title="Equipo Alpha" text={this.state.alphaList.length} colorcontent="blue-grey darken-1" colortitle="blue-grey darken-4"/>
+            <Card class="col s3" title="Equipo Beta" text={this.state.betaList.length}  colorcontent="blue-grey darken-1" colortitle="blue-grey darken-4" />
+            <Card class="col s3" title="Equipo Delta" text={this.state.deltaList.length} colorcontent="blue-grey darken-1" colortitle="blue-grey darken-4" />
           </div>
           <div className="row">
             <div className="col s8">
