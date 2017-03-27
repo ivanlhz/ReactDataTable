@@ -1,21 +1,11 @@
 import React, {Component} from 'react';
 import TableRow from './TableRow.js'
-
+import {connect} from 'react-redux'
+import { selectRow } from '../actions/actions'
 
 class Table extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            data :this.props.tableData,
-        }
-        this.updateSelectedItem = this.updateSelectedItem.bind(this);
-    }
-    updateSelectedItem(item)
-    {
-        this.props.updateSelectItem(item)
-    }
-
     render(){
+        const {  dispatch, tableData } = this.props
         return (     
             <table className="highlight">
                 <thead>
@@ -28,8 +18,8 @@ class Table extends Component{
 
                 <tbody>
                    {
-                        this.state.data.map( ( item )=>{
-                            return <TableRow data={item} selectItem={this.updateSelectedItem}/>
+                        tableData.map(  item =>{
+                            return <TableRow key={item.id} item={item} handleClick={()=> dispatch( selectRow(item) )} />
                         })
                    }
                 </tbody>
@@ -38,4 +28,4 @@ class Table extends Component{
     }
 }
 
-export default Table;
+export default connect()(Table);

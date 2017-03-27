@@ -1,7 +1,14 @@
 import React from 'react';
 import {render} from 'react-dom';
-import App from './App';
 import './index.css';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+
+import App from './App';
+import tableDataApp from './reducers/reducers' //Cargamos el redurcer que vamos a usar
+
+//definimos el store
+let store = createStore(tableDataApp)
 
 const data = [
         {"id":1234,"team": "alpha","name":"mojopicon","email":"mojopicon@gmail.com"},
@@ -16,7 +23,10 @@ const data = [
           {"id":1243,"team": "delta","name":"zelda","email":"zelda@gmail.com"}
       ];
 
+
 render(
-  <App data={data}/>,
+  <Provider store={store}>
+    <App data={data}/>
+  </Provider>,
   document.getElementById('root')
 );
