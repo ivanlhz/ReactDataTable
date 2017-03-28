@@ -1,14 +1,14 @@
 import React from 'react';
 import {render} from 'react-dom';
-import './index.css';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
 import App from './App';
-import tableDataApp from './reducers/reducers' //Cargamos el redurcer que vamos a usar
+import reducer from './reducers' //Cargamos el redurcer que vamos a usar
 
 //definimos el store
-let store = createStore(tableDataApp)
+let store = createStore(reducer,/* preloadedState, */
+   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 const data = [
         {"id":1234,"team": "alpha","name":"mojopicon","email":"mojopicon@gmail.com"},
